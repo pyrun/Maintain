@@ -51,6 +51,8 @@
 		<Unit filename="engine/config.h" />
 		<Unit filename="engine/engine.cpp" />
 		<Unit filename="engine/engine.h" />
+		<Unit filename="engine/helper.cpp" />
+		<Unit filename="engine/helper.h" />
 		<Unit filename="game/config.h" />
 		<Unit filename="graphic/graphic.cpp" />
 		<Unit filename="graphic/graphic.h" />

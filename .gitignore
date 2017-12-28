@@ -10,9 +10,9 @@ $RECYCLE.BIN/
 
 # obj folder and code blocks layout
 obj/
-src/TileGameCoop.depend
-src/TileGameCoop.layout
-src/TileGameCoop.cscope_file_list
+src/Maintain.depend
+src/Maintain.layout
+src/Maintain.cscope_file_list
 build/win/
 build/linux/
 build/mac/
