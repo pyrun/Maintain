@@ -8,12 +8,17 @@
 		<Build>
 			<Target title="windebug32">
 				<Option output="../bin/windebug32/Maintain" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../res" />
 				<Option object_output="../obj/windebug32/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add directory="../../irrlicht/include" />
+					<Add directory="graphic/" />
+					<Add directory="game/" />
+					<Add directory="engine/" />
 				</Compiler>
 				<Linker>
 					<Add directory="../../irrlicht/lib/Win32-gcc" />
@@ -21,11 +26,15 @@
 			</Target>
 			<Target title="winrelease32">
 				<Option output="../bin/winrelease32/Maintain" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../res" />
 				<Option object_output="../obj/winrelease32/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="graphic/" />
+					<Add directory="game/" />
+					<Add directory="engine/" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -38,7 +47,16 @@
 		<Linker>
 			<Add library="Irrlicht" />
 		</Linker>
+		<Unit filename="engine/config.cpp" />
+		<Unit filename="engine/config.h" />
+		<Unit filename="engine/engine.cpp" />
+		<Unit filename="engine/engine.h" />
+		<Unit filename="game/config.h" />
+		<Unit filename="graphic/graphic.cpp" />
+		<Unit filename="graphic/graphic.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="xml/tinyxml2.cpp" />
+		<Unit filename="xml/tinyxml2.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -1,0 +1,9 @@
+<config>
+    <graphic>
+        <heigh>400</heigh>
+        <width>640</width>
+        <fullscreen>false</fullscreen>
+        <vsync>true</vsync>
+        <withalphachannel>false</withalphachannel>
+    </graphic>
+</config>
