@@ -87,7 +87,6 @@ void config::save() {
 
     // save the file
     l_config.SaveFile( CONFIG_FILE);
-    printf( "saved\n");
 }
 
 bool config::load() {
@@ -101,7 +100,8 @@ bool config::load() {
 
     // load the root node
     XMLNode * l_root = l_config.FirstChild();
-    if (l_root == nullptr) return XML_ERROR_FILE_READ_ERROR;
+    if (l_root == nullptr)
+        return XML_ERROR_FILE_READ_ERROR;
 
     // get node
     XMLElement* l_xml_category = l_root->FirstChildElement();

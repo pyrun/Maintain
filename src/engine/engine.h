@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "../graphic/graphic.h"
+#include "entity.h"
 
 class engine {
     public:
@@ -15,6 +16,7 @@ class engine {
     private:
         graphic *p_graphic;
         config *p_config;
+        entity_handle *p_entity;
 };
 
 #endif // ENGINE_H

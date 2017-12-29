@@ -4,6 +4,7 @@
 #include <string>
 
 bool string_bool( std::string text);
+bool file_exist( std::string file);
 
 class helper
 {

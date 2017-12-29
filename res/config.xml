@@ -6,4 +6,7 @@
         <vsync>true</vsync>
         <withalphachannel>false</withalphachannel>
     </graphic>
+    <objects>
+        <folder>objects/</folder>
+    </objects>
 </config>

@@ -27,6 +27,9 @@ graphic::graphic( config *config) {
     // L for wide character ( very long CHAR*)
     p_device->setWindowCaption( L"Maintain"); // Title
 
+    // get scene
+    p_scene = p_device->getSceneManager();
+
     p_driver = p_device->getVideoDriver();
 }
 
