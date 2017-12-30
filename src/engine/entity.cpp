@@ -2,7 +2,6 @@
 #include <dirent.h>
 
 #include "../xml/tinyxml2.h"
-#include "helper.h"
 
 using namespace tinyxml2;
 
@@ -37,19 +36,19 @@ bool entity_handle::init( config *config, graphic *graphic) {
         entity_type *l_type = &p_types[ i];
 
         // load mesh
-        l_type->set_mesh( graphic->getSceneManager()->getMesh( l_type->file.c_str()));
+        l_type->setMesh( graphic->getSceneManager()->getMesh( l_type->file.c_str()));
     }
 }
 
 bool entity_handle::load( config *config, graphic *graphic) {
     std::string l_path = config->get( "folder", "objects", "objects/");
 
-    load_folder( l_path, config, graphic);
+    loadFolder( l_path, config, graphic);
 
     return true;
 }
 
-bool entity_handle::load_folder( std::string folder, config *config, graphic *graphic) {
+bool entity_handle::loadFolder( std::string folder, config *config, graphic *graphic) {
     DIR *l_dir;
 
     struct dirent *l_entry;
@@ -68,15 +67,15 @@ bool entity_handle::load_folder( std::string folder, config *config, graphic *gr
             continue;
 
         // load type
-        if( load_type( config, folder, l_entry->d_name, graphic) == false)
-            load_folder( l_file, config, graphic);
+        if( loadType( config, folder, l_entry->d_name, graphic) == false)
+            loadFolder( l_file, config, graphic);
     }
     closedir(l_dir);
 
     return true;
 }
 
-bool entity_handle::load_type( config *config, std::string l_path, std::string l_name, graphic *graphic) {
+bool entity_handle::loadType( config *config, std::string l_path, std::string l_name, graphic *graphic) {
     XMLDocument l_file;
 
     l_path = l_path + l_name + "/";
@@ -122,7 +121,7 @@ entity_type *entity_handle::getType( std::string name) {
     return NULL;
 }
 
-int entity_handle::createObject( graphic *graphic, std::string name) {
+int entity_handle::createObject( graphic *graphic, std::string name, vec3 position) {
     entity_type *l_type;
 
     l_type = getType( name);
@@ -136,9 +135,14 @@ int entity_handle::createObject( graphic *graphic, std::string name) {
     // incress
     p_id_counter++;
 
-    l_obj.set_mesh_node( graphic->getSceneManager()->addAnimatedMeshSceneNode( l_type->get_mesh()));
+    // create scene mng
+    l_obj.setMeshnode( graphic->getSceneManager()->addAnimatedMeshSceneNode( l_type->getMesh()));
 
-    l_obj.get_mesh()->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    // set matrial flag
+    l_obj.getMesh()->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+
+    // position
+    l_obj.setPosition( position );
 
     p_entitys.push_back( l_obj);
 

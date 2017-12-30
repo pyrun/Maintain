@@ -55,6 +55,10 @@
 		<Unit filename="engine/entity.h" />
 		<Unit filename="engine/helper.cpp" />
 		<Unit filename="engine/helper.h" />
+		<Unit filename="engine/input.cpp" />
+		<Unit filename="engine/input.h" />
+		<Unit filename="engine/world.cpp" />
+		<Unit filename="engine/world.h" />
 		<Unit filename="game/config.h" />
 		<Unit filename="graphic/graphic.cpp" />
 		<Unit filename="graphic/graphic.h" />
