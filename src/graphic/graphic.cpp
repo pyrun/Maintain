@@ -32,7 +32,9 @@ graphic::graphic( config *config) {
 
     p_driver = p_device->getVideoDriver();
 
-    p_camera = p_scene->addCameraSceneNodeFPS( 0, 100.0f, 0.5f, -1, 0, 0, true, 0.f, false, true);
+    p_camera = p_scene->addCameraSceneNodeFPS( 0, 100.0f, 0.5f, -1, 0, 0, true, 30.f, false, true);
+
+    p_camera->setFarValue( atoi(config->get( "view", "graphic", "9000").c_str()));
 }
 
 graphic::~graphic() {

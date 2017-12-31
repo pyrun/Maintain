@@ -31,8 +31,12 @@ engine::~engine() {
         delete p_config;
 }
 
+#include <windows.h>
+
 int engine::run() {
-    p_entity->createObject( p_graphic, "house", vec3( 100, 100, 100) );
+    //p_entity->createObject( p_graphic, "house", vec3( 100, 100, 100) );
+
+    p_graphic->getCamera()->setPosition( vec3( 0, 1000, 0));
 
     const f32 MOVEMENT_SPEED = 5.f;
 

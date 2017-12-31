@@ -1,10 +1,11 @@
 <config>
     <graphic>
-        <heigh>400</heigh>
-        <width>640</width>
+        <heigh>720</heigh>
+        <width>1000</width>
         <fullscreen>false</fullscreen>
         <vsync>true</vsync>
         <withalphachannel>false</withalphachannel>
+        <view>9000</view>
     </graphic>
     <objects>
         <folder>objects/</folder>
