@@ -1,5 +1,7 @@
 #include "world.h"
 
+#include "physic.h"
+
 using namespace irr;
 
 world::world() {
@@ -10,46 +12,19 @@ world::~world() {
 }
 
 void world::load( graphic *graphic) {
+    irr::scene::IMesh *plane = graphic->getSceneManager()->getGeometryCreator()->createPlaneMesh( irr::core::dimension2df(20,20), irr::core::dimension2du(100,100));
+    irr::scene::IMeshSceneNode *terrain = graphic->getSceneManager()->addMeshSceneNode(plane);
 
-    float l_width = 40.f;
-    float l_length = 40.f;
-    float l_height = 10.f;
+    terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    terrain->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
+    terrain->setMaterialType(irr::video::EMT_SOLID);
 
-    // add terrain scene node
-    scene::ITerrainSceneNode* l_terrain = graphic->getSceneManager()->addTerrainSceneNode(
-        "heightmap.jpg",
-        0,                  // parent node
-        -1,                 // node id
-        core::vector3df(0.f, -l_height*100.f, 0.f),     // position
-        core::vector3df(0.f, 0.f, 0.f),     // rotation
-        core::vector3df( l_width, l_height, l_length),  // scale
-        video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-        5,                  // maxLOD
-        scene::ETPS_17,     // patchSize
-        4                   // smoothFactor
-        );
+    terrain->setMaterialTexture( 0, graphic->getDriver()->getTexture( "ground/grass/diffus.tga") );
 
-    l_terrain->setMaterialFlag(video::EMF_LIGHTING, false);
+    terrain->setMaterialType(video::EMT_DETAIL_MAP);
 
-    l_terrain->setMaterialTexture(0, graphic->getDriver()->getTexture("ground/grass/diffus.tga"));
-    l_terrain->setMaterialTexture(1, graphic->getDriver()->getTexture("ground/earth/diffus.tga"));
-
-    l_terrain->setMaterialType(video::EMT_DETAIL_MAP);
-
-    l_terrain->scaleTexture( l_width, l_length);
+    physic_createTrg( terrain);
 
     // create triangle selector for the terrain
-    scene::ITriangleSelector* selector = graphic->getSceneManager()->createTerrainTriangleSelector( l_terrain, 0);
-    l_terrain->setTriangleSelector(selector);
-
-    // create collision response animator and attach it to the camera
-    scene::ISceneNodeAnimator* anim = graphic->getSceneManager()->createCollisionResponseAnimator(
-        selector, graphic->getCamera(), core::vector3df(60,100,60),
-        core::vector3df(0,0,0),
-        core::vector3df(0,50,0));
-
-    graphic->getCamera()->addAnimator( anim);
-    graphic->getCamera()->
-
-    selector->drop();
+    //scene::ITriangleSelector* selector = graphic->getSceneManager()->createTerrainTriangleSelector( l_terrain, 0);
 }

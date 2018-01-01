@@ -6,6 +6,7 @@
 #include "entity.h"
 #include "input.h"
 #include "world.h"
+#include "physic.h"
 
 class engine {
     public:

@@ -4,10 +4,10 @@ engine::engine() {
     // init
     p_config = new config();
     p_graphic = new graphic( p_config);
+    physic_init();
     p_entity = new entity_handle();
     p_input = new input();
     p_world = new world();
-
 
     // start
     p_entity->load( p_config, p_graphic);
@@ -18,9 +18,12 @@ engine::engine() {
     p_graphic->getDevice()->setEventReceiver( p_input);
 
     p_world->load( p_graphic);
+
+    physic_createPlayer( p_graphic->getSceneManager(), vector3df(60, 500, 60));
 }
 
 engine::~engine() {
+    physic_deleteWorld();
     if( p_input)
         delete p_input;
     if( p_entity)
@@ -36,38 +39,33 @@ engine::~engine() {
 int engine::run() {
     //p_entity->createObject( p_graphic, "house", vec3( 100, 100, 100) );
 
-    p_graphic->getCamera()->setPosition( vec3( 0, 1000, 0));
+    //p_graphic->getCamera()->setPosition( vec3( 0, 1000, 0));
 
-    const f32 MOVEMENT_SPEED = 5.f;
 
-    u32 then = p_graphic->getDevice()->getTimer()->getTime();
+    int deltaTime = 0;
+    int timeStamp = 0;
+
+    u32 FPS_startTime = 0;
+    u32 FPS_skipTime = 1000 / 60;
+
     // main while
     while(p_graphic->getDevice()->run()) {
         // Work out a frame delta time.
-        const u32 now = p_graphic->getDevice()->getTimer()->getTime();
-        const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
-        then = now;
+        deltaTime = p_graphic->getDevice()->getTimer()->getTime() - timeStamp;
+        timeStamp = p_graphic->getDevice()->getTimer()->getTime();
 
-        /*core::vector3df nodePosition = node->getPosition();
+        physic_updateWorld( 0.5f*deltaTime);
+        physic_controlPlayer();
 
-        if( p_input->isKeyDown(irr::KEY_KEY_W))
-            nodePosition.Y += MOVEMENT_SPEED * frameDeltaTime;
-        else if( p_input->isKeyDown(irr::KEY_KEY_S))
-            nodePosition.Y -= MOVEMENT_SPEED * frameDeltaTime;
+        if ( timeStamp - FPS_startTime > FPS_skipTime){
+            FPS_startTime = timeStamp;
+            p_graphic->begin();
 
-        if( p_input->isKeyDown(irr::KEY_KEY_A))
-            nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-        else if( p_input->isKeyDown(irr::KEY_KEY_D))
-            nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+            // draw scene
+            p_graphic->getSceneManager()->drawAll();
 
-        node->setPosition(nodePosition);*/
-
-        p_graphic->begin();
-
-        // draw scene
-        p_graphic->getSceneManager()->drawAll();
-
-		p_graphic->end();
+            p_graphic->end();
+        }
 	}
 
 	p_graphic->getDevice()->drop();
