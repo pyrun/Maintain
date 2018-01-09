@@ -31,13 +31,11 @@ void entity::init( graphic *graphic, physic *physic, irr::scene::IAnimatedMesh *
     p_node->setRotation( vec3( 0, 0, 180));
 
     q3BodyDef bodyDef;
-        bodyDef.bodyType = eDynamicBody;
         p_body = physic->getWorld()->CreateBody( bodyDef );
 
     q3BoxDef boxDef; // See q3Box.h for settings details
         q3Transform localSpace; // Contains position and orientation, see q3Transform.h for details
         q3Identity( localSpace ); // Specify the origin, and identity orientation
-
 
         // Create a box at the origin with width, height, depth = (1.0, 1.0, 1.0)
         // and add it to a rigid body. The transform is defined relative to the owning body
@@ -83,6 +81,8 @@ void entity_handle::process() {
         //q3Transform l_transform2 = l_obj->getBody()->GetLocalPoint( 1);
 
         vec3 pos = vec3( l_transform.position.x, l_transform.position.y, l_transform.position.z );
+
+        printf( "%.2f\n", l_obj->getBody()->GetTransform().position.y);
 
         l_obj->setPosition(  pos);
     }

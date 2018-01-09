@@ -5,6 +5,7 @@
 
 #include "../engine/config.h"
 
+
 class graphic {
     public:
         graphic( config *config);

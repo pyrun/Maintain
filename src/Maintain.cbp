@@ -16,13 +16,14 @@
 					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add directory="../../irrlicht/include" />
-					<Add directory="../../ode-0.13/include" />
+					<Add directory="../../qu3e/src" />
+					<Add directory="engine" />
 				</Compiler>
 				<Linker>
 					<Add option="-lirrlicht" />
-					<Add option="-lode_double" />
+					<Add option="-lqu3e" />
 					<Add directory="../../irrlicht/lib/Win32-gcc" />
-					<Add directory="../../ode-0.13/lib/ReleaseDoubleDLL" />
+					<Add directory="../../qu3e/lib" />
 				</Linker>
 			</Target>
 			<Target title="winrelease32">
@@ -36,6 +37,7 @@
 					<Add directory="graphic/" />
 					<Add directory="game/" />
 					<Add directory="engine/" />
+					<Add directory="engine" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -57,9 +59,10 @@
 		<Unit filename="engine/input.h" />
 		<Unit filename="engine/physic.cpp" />
 		<Unit filename="engine/physic.h" />
+		<Unit filename="engine/timer.cpp" />
+		<Unit filename="engine/timer.h" />
 		<Unit filename="engine/world.cpp" />
 		<Unit filename="engine/world.h" />
-		<Unit filename="game/config.h" />
 		<Unit filename="graphic/graphic.cpp" />
 		<Unit filename="graphic/graphic.h" />
 		<Unit filename="main.cpp" />

@@ -1,86 +1,27 @@
 #ifndef PHYSIC_H
 #define PHYSIC_H
 
-//#define dSINGLE
-#define dDOUBLE
+#include "q3.h"
+#include "../graphic/graphic.h"
+#include "timer.h"
 
-#include <ode/ode.h>
-#include <irrlicht.h>
-#include <iostream>
-#include <vector>
-
-using namespace irr;
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
-using namespace std;
-
-// Мир содержащий все тела
-extern dWorldID physic_world;
-
-// Указатель на геометрию пространства
-extern dSpaceID physic_space;
-
-// Указатель на контактные соединения группы
-extern dJointGroupID physic_contactGroup;
-
-// Переменная для поворота
-extern vector3df physic_rotation;
-
-// Структура для динамических объектов
-struct physic_structObject
+class physic
 {
-    ISceneNode* node;
-    dBodyID body;
-    dGeomID geom;
-} extern physic_sObject;
+    public:
+        physic( graphic *graphic, float skiptime = 1.f / 60.f);
+        virtual ~physic();
 
-// Список динамических объектов
-extern vector< physic_structObject> physic_vObject;
-extern vector< physic_structObject>::iterator physic_vObjectIter;
+        void process( graphic *graphic);
+        q3Scene *getWorld() { return p_world; }
+    protected:
 
-// Структура для игрока
-struct physic_structPlayer
-{
-    ICameraSceneNode* playerCamera;
-    ISceneNode* node;
-    dBodyID playerBody;
-    dGeomID playerGeom;
-} extern physic_sPlayer;
+    private:
+        q3Scene *p_world;
+        timer p_timer;
+        float p_fps_skipTime;
+        float p_last_time;
 
-// Создать мир
-void physic_init();
-
-// Обновить мир
-void physic_updateWorld(f32 pTime);
-
-// Удалить мир
-void physic_deleteWorld();
-
-// Функция вызывается когда два объекта могут столкнуться
-void physic_callBack(void* pNode, dGeomID o1, dGeomID o2);
-
-// Позиционирование тела
-void physic_setPosition(dGeomID pGeom);
-
-// Удалить объект
-void physic_deleteObj(IMeshSceneNode* pNode);
-
-// Создать квадратное тело
-void physic_createBox(IMeshSceneNode* pNode, bool pStatic, f32 pMass);
-
-// Создать круглое тело
-void physic_createSphere(IMeshSceneNode* pNode, bool pStatic, f32 pMass);
-
-// Создать произвольное тело
-void physic_createTrg(IMeshSceneNode* pNode, bool pStatic, f32 pMass);
-
-// Создать игрока
-void physic_createPlayer(ISceneManager* smgr, vector3df pPosition);
-
-// Обрабатывать игрока
-void physic_controlPlayer();
+        q3Body* body;
+};
 
 #endif // PHYSIC_H

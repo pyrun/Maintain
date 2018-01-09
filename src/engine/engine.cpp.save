@@ -1,5 +1,7 @@
 #include "engine.h"
 
+using namespace reactphysics3d;
+
 engine::engine() {
     // init
     p_config = new config();
@@ -7,7 +9,7 @@ engine::engine() {
     p_entity = new entity_handle();
     p_input = new input();
     p_world = new world();
-
+    p_physic = new physic();
 
     // start
     p_entity->load( p_config, p_graphic);
@@ -18,9 +20,12 @@ engine::engine() {
     p_graphic->getDevice()->setEventReceiver( p_input);
 
     p_world->load( p_graphic);
+
 }
 
 engine::~engine() {
+    if( p_physic)
+        delete p_physic;
     if( p_input)
         delete p_input;
     if( p_entity)
@@ -34,53 +39,34 @@ engine::~engine() {
 #include <windows.h>
 
 int engine::run() {
-    //p_entity->createObject( p_graphic, "house", vec3( 100, 100, 100) );
+    p_entity->createObject( p_graphic, p_physic, "house", vec3( 300, -800, 100) );
 
-    p_graphic->getCamera()->setPosition( vec3( 0, 1000, 0));
+    //p_graphic->getCamera()->setPosition( vec3( 0, 1000, 0));
 
-    const f32 MOVEMENT_SPEED = 5.f;
 
-    u32 then = p_graphic->getDevice()->getTimer()->getTime();
-    int lastFPS = -1;
+    int deltaTime = 0;
+    int timeStamp = 0;
+
+    u32 FPS_startTime = 0;
+    u32 FPS_skipTime = 1000 / 60;
+
     // main while
     while(p_graphic->getDevice()->run()) {
         // Work out a frame delta time.
-        const u32 now = p_graphic->getDevice()->getTimer()->getTime();
-        const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
-        then = now;
+        deltaTime = p_graphic->getDevice()->getTimer()->getTime() - timeStamp;
+        timeStamp = p_graphic->getDevice()->getTimer()->getTime();
 
-        /*core::vector3df nodePosition = node->getPosition();
+        //physic_updateWorld( 0.5f*deltaTime);
+        //physic_controlPlayer();
 
-        if( p_input->isKeyDown(irr::KEY_KEY_W))
-            nodePosition.Y += MOVEMENT_SPEED * frameDeltaTime;
-        else if( p_input->isKeyDown(irr::KEY_KEY_S))
-            nodePosition.Y -= MOVEMENT_SPEED * frameDeltaTime;
+        if ( timeStamp - FPS_startTime > FPS_skipTime){
+            FPS_startTime = timeStamp;
+            p_graphic->begin();
 
-        if( p_input->isKeyDown(irr::KEY_KEY_A))
-            nodePosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-        else if( p_input->isKeyDown(irr::KEY_KEY_D))
-            nodePosition.X += MOVEMENT_SPEED * frameDeltaTime;
+            // draw scene
+            p_graphic->getSceneManager()->drawAll();
 
-        node->setPosition(nodePosition);*/
-
-        p_graphic->begin();
-
-        // draw scene
-        p_graphic->getSceneManager()->drawAll();
-
-		p_graphic->end();
-
-		int fps = p_graphic->getDriver()->getFPS();
-
-        if (lastFPS != fps)
-        {
-            core::stringw tmp(L"Movement Example - Irrlicht Engine [");
-            tmp += p_graphic->getDriver()->getName();
-            tmp += L"] fps: ";
-            tmp += fps;
-
-            p_graphic->getDevice()->setWindowCaption(tmp.c_str());
-            lastFPS = fps;
+            p_graphic->end();
         }
 	}
 

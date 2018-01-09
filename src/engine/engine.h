@@ -22,6 +22,7 @@ class engine {
         entity_handle *p_entity;
         input *p_input;
         world *p_world;
+        physic *p_physic;
 };
 
 #endif // ENGINE_H

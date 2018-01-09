@@ -2,13 +2,14 @@
 #define WORLD_H
 
 #include "../graphic/graphic.h"
+#include "physic.h"
 
 class world {
     public:
         world();
         virtual ~world();
 
-        void load( graphic *graphic );
+        void load( graphic *graphic , physic *physic);
     protected:
 
     private:

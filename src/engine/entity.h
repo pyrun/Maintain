@@ -4,6 +4,7 @@
 #include "../graphic/graphic.h"
 #include "config.h"
 #include "helper.h"
+#include "physic.h"
 
 #define ENTITY_DEFINITION_FILE "definition.xml" // search for this file in folders
 
@@ -14,12 +15,8 @@ class entity_type {
 
         std::string name;
         std::string file;
-        void setMesh( irr::scene::IAnimatedMesh *mesh) {
-            p_mesh = mesh;
-        }
-        irr::scene::IAnimatedMesh *getMesh() {
-            return p_mesh;
-        }
+        void setMesh( irr::scene::IAnimatedMesh *mesh) { p_mesh = mesh; }
+        irr::scene::IAnimatedMesh *getMesh() { return p_mesh; }
     private:
         irr::scene::IAnimatedMesh *p_mesh;
 };
@@ -31,9 +28,14 @@ class entity {
 
         int id;
 
+        void init( graphic *graphic, physic *physic, irr::scene::IAnimatedMesh *mesh);
+
+        // physic collision
+        q3Body* getBody() { return p_body; }
+
         // mesh node
-        void setMeshnode( irr::scene::IAnimatedMeshSceneNode *node) { p_node = node; }
-        irr::scene::IAnimatedMeshSceneNode *getMesh() { return p_node; }
+        void setMeshNode( irr::scene::IAnimatedMeshSceneNode *node) { p_node = node; }
+        irr::scene::IAnimatedMeshSceneNode *getMeshNode() { return p_node; }
 
         // position
         void setPosition( irr::core::vector3df position) { p_node->setPosition( position); }
@@ -42,6 +44,7 @@ class entity {
 
     private:
         irr::scene::IAnimatedMeshSceneNode *p_node;
+        q3Body* p_body;
 };
 
 class entity_handle {
@@ -51,16 +54,18 @@ class entity_handle {
 
         bool init( config *config, graphic *graphic);
 
+        void process();
+
         bool load( config *config, graphic *graphic);
         bool loadFolder( std::string folder, config *config, graphic *graphic);
         bool loadType( config *config, std::string l_path, std::string l_name, graphic *graphic);
 
         entity_type *getType( std::string name);
 
-        int createObject( graphic *graphic, std::string name, vec3 position);
+        int createObject( graphic *graphic, physic *physic, std::string name, vec3 position);
     private:
-        std::vector<entity_type> p_types;
-        std::vector<entity> p_entitys;
+        std::vector<entity_type*> p_types;
+        std::vector<entity*> p_entitys;
 
         int p_id_counter;
 };
